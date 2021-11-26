@@ -41,7 +41,8 @@ class Container{
     }
     getById(id){
         try{
-            return this.list.find(item => item.id == id)
+            let element = this.list.find(item => item.id == id)
+            return element != undefined ? element : null
         }
         catch(err){
             return `Hubo un error al buscar el elemento${err}`
@@ -59,9 +60,10 @@ class Container{
     async deleteById(id){
         try{
             const index = this.list.findIndex((element) => element.id == id)
-            this.list.splice(index, 1)
-            await this.write()
-            return `Se borro el elemento con id:${id}`
+            if(index != -1){
+                this.list.splice(index, 1)
+                await this.write()
+            }
         }
         catch(err){
             return `Hubo un error al borrar el elemento ${err}`
